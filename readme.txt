@@ -1,0 +1,1 @@
+root location: /home/pi

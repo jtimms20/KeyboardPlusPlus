@@ -1,0 +1,51 @@
+# my.kv file code here
+
+<MainWidget>:
+    orientation: 'vertical'
+    MenuWidget
+        size_hint: (0.75,0.1)
+        pos_hint: {'center_x':0.5}
+    KeypadWidget
+
+
+<MenuWidget>:
+    orientation: 'horizontal'
+    Button:
+        text: 'Exit'
+        size_hint: (0.5,1)
+        on_press: root.program_exit()
+
+<KeypadWidget>:
+  
+    cols: 4
+    #rows: 3
+      
+    Button:        
+        text: 'r1c1'
+        on_press: root.keyboard_send_r1c1()
+    Button:
+        text: 'r1c2'
+        on_press: root.keyboard_send_r1c2()
+    Button:
+        text: 'r1c3'
+        on_press: root.keyboard_send_r1c3()
+    Button:
+        text: 'r1c4'
+    Button:        
+        text: 'say hello on HID Bluetooth'
+        on_press: root.keyboard_send_hello()
+    Button:        
+        text: 'Say hello to CLI'
+        on_press: root.say_hello()
+    Button:
+        text: 'r2c3'
+    Button:
+        text: 'r2c4'
+    Button:
+        text: 'r3c1'
+    Button:
+        text: 'r3c2'
+    Button:
+        text: 'r3c3'
+    Button:
+        text: 'r3c4'
