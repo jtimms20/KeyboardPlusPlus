@@ -11,8 +11,8 @@ import keymap
 
 class BtkStringClient():
     # constants
-    KEY_DOWN_TIME = 0.000001
-    KEY_DELAY = 0.000001
+    KEY_DOWN_TIME = 0.0001
+    KEY_DELAY = 0.0005
 
     def __init__(self):
         # the structure for a bt keyboard input report (size is 10 bytes)
@@ -64,16 +64,27 @@ class BtkStringClient():
     def send_string(self, string_to_send):
         altArray = [0] * len(string_to_send)
         numKeyArray = [0] * len(string_to_send)
+
+        altKeyPressedLast = 0
+
         for i in range(len(string_to_send)):
             
-            if (string_to_send[i] in "πΠ"):
+            if (string_to_send[i] in "πΠβ√°"):
                 altArray[i]=1
                 altArray.insert(i+1,1)
                 altArray.insert(i+2,1)
                 numKeyArray[i] = 1
                 numKeyArray.insert(i+1,1)
                 numKeyArray.insert(i+2,1)
+            if (string_to_send[i] in "πΠ"):
                 string_to_send = string_to_send[:i] + "227" + string_to_send[i+1:]
+            if (string_to_send[i] in "β"):
+                string_to_send = string_to_send[:i] + "225" + string_to_send[i+1:]
+            if (string_to_send[i] in "√"):
+                string_to_send = string_to_send[:i] + "251" + string_to_send[i+1:]
+            if (string_to_send[i] in "°"):
+                string_to_send = string_to_send[:i] + "248" + string_to_send[i+1:]
+
         altArrayIndex = 0
         for c in string_to_send:
             self.state[2][1] = altArray[altArrayIndex]
@@ -84,26 +95,51 @@ class BtkStringClient():
                 self.state[2][2] =0
             if (c in "!@#$%^&*:\"?+_\~"):
                 self.state[2][2] =1
-            #if (altArray[altArrayIndex] == 1):
+            #if (altArray[altArrayIndex-1] == 1):
              #   self.state[2][1] = 1
             #else:
              #   self.state[2][1] = 0
-            #altArrayIndex = altArrayIndex+1
             cu = c.upper()
             if(cu in self.scancodes):
                 scantablekey = self.scancodes[cu]
             else:
                 scantablekey = "KEY_"+c.upper()
-                print("KEY_"+c+" "+str(altArray[altArrayIndex-1]))
+                print("KEY_"+c+" "+str(self.state[2][1])+" "+str(numKeyArray[altArrayIndex-1]))
 
             if (numKeyArray[i] == 1 and scantablekey in ["KEY_1","KEY_2","KEY_3","KEY_4","KEY_5","KEY_6","KEY_7","KEY_8","KEY_9","KEY_0"]):
                 scantablekey = scantablekey[:4]+"KP"+scantablekey[4:]
             
             scancode = keymap.keytable[scantablekey]
             self.send_key_down(scancode)
-            #time.sleep(BtkStringClient.KEY_DOWN_TIME)
+            time.sleep(BtkStringClient.KEY_DOWN_TIME)
             self.send_key_up()
-            #time.sleep(BtkStringClient.KEY_DELAY)
+            time.sleep(BtkStringClient.KEY_DELAY)
+            
+            if (altKeyPressedLast == 1 and self.state[2][1] == 0):
+                self.send_key_down(226)
+                time.sleep(BtkStringClient.KEY_DOWN_TIME)
+                self.send_key_up()
+                time.sleep(BtkStringClient.KEY_DELAY)
+                self.send_key_down(226)
+                time.sleep(BtkStringClient.KEY_DOWN_TIME)
+                self.send_key_up()
+                time.sleep(BtkStringClient.KEY_DELAY)
+
+            altKeyPressedLast = self.state[2][1]
+        self.state[2]=[0, 0, 0, 0, 0, 0, 0, 0]
+        self.send_key_down(226)
+        time.sleep(BtkStringClient.KEY_DOWN_TIME)
+        self.send_key_up()
+        time.sleep(BtkStringClient.KEY_DELAY)
+        self.send_key_down(226)
+        time.sleep(BtkStringClient.KEY_DOWN_TIME)
+        self.send_key_up()
+        time.sleep(BtkStringClient.KEY_DELAY)
+
+        self.send_key_down(225)
+        time.sleep(BtkStringClient.KEY_DOWN_TIME)
+        self.send_key_up()
+        time.sleep(BtkStringClient.KEY_DELAY)
 
 
 if __name__ == "__main__":

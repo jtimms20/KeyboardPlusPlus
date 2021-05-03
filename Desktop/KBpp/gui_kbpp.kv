@@ -1,5 +1,5 @@
 # my.kv file code here
-
+#:import subprocess subprocess
 <MainWidget>:
     orientation: 'vertical'
     MenuWidget
@@ -16,36 +16,44 @@
         on_press: root.program_exit()
 
 <KeypadWidget>:
+    
   
     cols: 4
-    #rows: 3
+    rows: 3
       
-    Button:        
-        text: 'r1c1'
+    Button:
+        text: open("/home/pi/Desktop/KBpp/keybindings/r1c1.txt",'r').read()
         on_press: root.keyboard_send_r1c1()
     Button:
-        text: 'r1c2'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r1c2.txt",'r').read()
         on_press: root.keyboard_send_r1c2()
     Button:
-        text: 'r1c3'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r1c3.txt",'r').read()
         on_press: root.keyboard_send_r1c3()
     Button:
-        text: 'r1c4'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r1c4.txt",'r').read()
+        on_press: root.keyboard_send_r1c4()
     Button:        
-        text: 'say hello on HID Bluetooth'
-        on_press: root.keyboard_send_hello()
+        text: open("/home/pi/Desktop/KBpp/keybindings/r2c1.txt",'r').read()
+        on_press: root.keyboard_send_r2c1()
     Button:        
-        text: 'Say hello to CLI'
-        on_press: root.say_hello()
+        text: open("/home/pi/Desktop/KBpp/keybindings/r2c2.txt",'r').read()
+        on_press: root.keyboard_send_r2c2()
     Button:
-        text: 'r2c3'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r2c3.txt",'r').read()
+        on_press: root.keyboard_send_r2c3()
     Button:
-        text: 'r2c4'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r2c4.txt",'r').read()
+        on_press: root.keyboard_send_r2c4()
     Button:
-        text: 'r3c1'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r3c1.txt",'r').read()
+        on_press: root.keyboard_send_r3c1()
     Button:
-        text: 'r3c2'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r3c2.txt",'r').read()
+        on_press: root.keyboard_send_r3c2()
     Button:
-        text: 'r3c3'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r3c3.txt",'r').read()
+        on_press: root.keyboard_send_r3c3()
     Button:
-        text: 'r3c4'
+        text: open("/home/pi/Desktop/KBpp/keybindings/r3c4.txt",'r').read()
+        on_press: root.keyboard_send_r3c4()
